@@ -33,9 +33,9 @@ services: # Контейнеры, которые мы подключаем
       - ./deploy/mysql:/docker-entrypoint-initdb.d
     environment:
         MYSQL_DATABASE: "chcard_base"
-        MYSQL_ROOT_PASSWORD: root
-        MYSQL_PASSWORD: 1234
-        MYSQL_USER: dedragon
+        MYSQL_ROOT_PASSWORD: "root"
+        MYSQL_PASSWORD: "1234"
+        MYSQL_USER: "dedragon"
     ports:
       - 3306:3306
     networks:
