@@ -1,0 +1,51 @@
+version: '3' # Версия Docker-compose документа
+
+services: # Контейнеры, которые мы подключаем
+  nginx-cdm: # Задаём название контейнеру
+    image: nginx:latest # Определяем образ, который загружаем в контейнер
+    volumes: # Рабочий каталог с кодом проекта?
+      - ./:/var/www
+      - ./_docker/nginx/conf.d:/etc/nginx/conf.d
+    ports: # Определяем внешние порты, которые подключатся ко внутренним
+      - "4444:80"
+    depends_on: # Последовательность загрузки контейнеров
+      - app
+    container_name: nginx-cdm # Название контейнера. Снова?
+    networks: # Используемая сеть
+      - cdm # Имя сети
+
+  app:
+    build:
+      context: .
+      dockerfile: _docker/app/Dockerfile
+    volumes: # Рабочий каталог с кодом проекта?
+      - ./:/var/www
+    depends_on: # Последовательность загрузки контейнеров
+      - mysql
+    container_name: app # Название контейнера
+    networks:  # Используемая сеть
+      - cdm # Имя сети
+  
+  mysql:
+    image: mysql/mysql-server:8.0.23 # Определяем образ, который загружаем в контейнер
+    restart: unless-stopped
+    volumes:
+      - ./deploy/mysql:/docker-entrypoint-initdb.d
+    environment:
+        MYSQL_DATABASE: "chcard_base"
+        MYSQL_ROOT_PASSWORD: root
+        MYSQL_PASSWORD: 1234
+        MYSQL_USER: dedragon
+    ports:
+      - 3306:3306
+    networks:
+      - cdm
+    command: mysqld --character-set-server=utf8 --collation-server=utf8_unicode_ci --max_allowed_packet=128M
+    container_name: mysql
+
+networks:  # Сети
+  cdm: # Созданная нами сеть
+    driver: bridge # Указывает какой драйвер следует использовать для сети
+    # Мост, — это сетевой драйвер по умолчанию. Бридж сеть используется,
+    # когда ваши приложения запускаются в автономных контейнерах, которые
+    # должны взаимодействовать между собой. 
