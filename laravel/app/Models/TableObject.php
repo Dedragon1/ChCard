@@ -7,9 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+use Illuminate\Database\Eloquent\SoftDeletes;
+
 class TableObject extends Model
 {
-
+    use SoftDeletes;
+    protected $dates = ['deleted_at'];
+    
     protected $table = 'table_object';
 
     protected $fillable = [
@@ -17,6 +21,7 @@ class TableObject extends Model
         'name',
         'description',
         'image',
+        'deleted_at',
     ];
 
     public function result(): HasMany

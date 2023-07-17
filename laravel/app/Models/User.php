@@ -10,6 +10,8 @@ use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+use Illuminate\Database\Eloquent\SoftDeletes;
+
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
@@ -19,10 +21,15 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
+
+    use SoftDeletes;
+    protected $dates = ['deleted_at'];
+
     protected $fillable = [
         'name',
         'email',
         'password',
+        'deleted_at',
     ];
 
     public function notifications_sender(): HasMany
@@ -42,6 +49,10 @@ class User extends Authenticatable
         return $this->hasMany(PassedTest::class);
     }
 
+    public function test_models_can_be_instantiated()
+    {
+        $user = User::factory()->make();
+    }
 
     /**
      * The attributes that should be hidden for serialization.

@@ -7,10 +7,16 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+use Illuminate\Database\Eloquent\SoftDeletes;
+
+
 class Test extends Model
 {
 
-    protected $table = 'test';
+    use SoftDeletes;
+    protected $dates = ['deleted_at'];
+
+    protected $table = 'test'; 
 
     protected $fillable = [
         'name',
@@ -19,6 +25,7 @@ class Test extends Model
         'user_id',
         'number_passes',
         'activity',
+        'deleted_at',
     ];
 
     public function notifications(): HasMany

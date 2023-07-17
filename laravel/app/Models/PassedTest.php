@@ -7,8 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+use Illuminate\Database\Eloquent\SoftDeletes;
+
 class PassedTest extends Model
 {
+    use SoftDeletes;
+    protected $dates = ['deleted_at'];
     
     protected $table = 'passed_test';
 
@@ -19,6 +23,7 @@ class PassedTest extends Model
         'comment',
         'score',
         'status',
+        'deleted_at',
     ];
 
     public function test(): BelongsTo
