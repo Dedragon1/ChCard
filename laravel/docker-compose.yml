@@ -43,6 +43,11 @@ services: # Контейнеры, которые мы подключаем
     command: mysqld --character-set-server=utf8 --collation-server=utf8_unicode_ci --max_allowed_packet=128M
     container_name: mysql
 
+# юзер
+# группа пльзователей
+# пользователь к группе
+# дать прова группе
+
 networks:  # Сети
   cdm: # Созданная нами сеть
     driver: bridge # Указывает какой драйвер следует использовать для сети

@@ -21,6 +21,11 @@ apt-get install -y nodejs
 COPY ./_docker/app/php.ini /usr/local/etc/php/
 COPY ./_docker/app/www.conf /usr/local/etc/php-fpm.d/www.conf
 
+
+# RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache
+# RUN chmod -R 775 ./
+
+
 # Install composer
 ENV COMPOSER_ALLOW_SUPERUSER=1
 RUN curl -sS https://getcomposer.org/installer | php -- \
